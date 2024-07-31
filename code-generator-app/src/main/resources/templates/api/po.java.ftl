@@ -1,21 +1,28 @@
-package ${poPkg};
+package ${packageName};
 
 
 import lombok.Data;
 
+<#list importPackages as importPackage>
+<#if importPackage.importPackage != ''>
+import ${importPackage.importPackage};
+ </#if>
+</#list>
+
+
 /**
 * @Author: ${author}
-* @Date: ${date}
-* @Description: ${comment}
+* @Date: ${createTime}
+* @Description: ${tableComment}
 */
 @Data
-public class ${poClassName} {
+public class ${tableName} {
 
-<#list columns as field>
+<#list columnInfos as field>
     /**
-    * ${field.fieldComment}
+    * ${field.columnComment}
     */
-    private ${field.javaType} ${field.javaField};
+    private ${field.columnType} ${field.columnName};
 
 </#list>
 }

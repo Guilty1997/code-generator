@@ -52,7 +52,7 @@ public class JavaCodeTest {
 
     GeneratorDetail detail = GeneratorDetail.builder()
             .baseInfoInfo(GeneratorDetail.BaseInfoInfo.builder()
-                    .packageName("code.generator")
+                    .packageName(" code.generator.infrastructure.persistent.po")
                     .author("hehongyi")
                     .createTime(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()))
                     .build())

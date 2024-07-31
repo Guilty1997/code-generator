@@ -40,8 +40,10 @@ public abstract class CodeBuilderTemplateFactory {
    * 保存到文件
    */
   public void buildTemplate(Map<String, Object> model) throws IOException, TemplateException {
+    String tableName = (String) model.get("tableName");
+    String resultPath = path + tableName + ".java";
     Template template = configurer.getConfiguration().getTemplate(getTemplateFileName());
-    Writer writer = new FileWriter(path);
+    Writer writer = new FileWriter(resultPath);
     template.process(model, writer);
 
 

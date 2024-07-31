@@ -1,11 +1,9 @@
 package code.generator.domain.builder.model.aggregate;
 
+import code.generator.types.utils.CommonUtils;
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author: hehongyi
@@ -27,18 +25,21 @@ public class CodeModelBuilder {
 
   public CodeModelBuilder builderEntity(GeneratorDetail generatorDetail) {
     GeneratorDetail.TableInfo tableInfo = generatorDetail.getTableInfo();
-    model.put("tableName", tableInfo.getTableName());
+    model.put("tableName", CommonUtils.underlineToCamel(tableInfo.getTableName(), true));
     model.put("tableComment", tableInfo.getTableComment());
     List<GeneratorDetail.ColumnInfo> columnInfos = generatorDetail.getColumnInfos();
-    List<String> importPackages = new ArrayList<>();
+    Set<Map<String, String>> importPackages = new HashSet<>();
     List<Map<String, String>> columnList = new ArrayList<>();
     for (GeneratorDetail.ColumnInfo columnInfo : columnInfos) {
-      Map<String, String> map = new HashMap<>();
-      map.put("columnName", columnInfo.getColumnName());
-      map.put("columnComment", columnInfo.getColumnComment());
-      map.put("columnType", columnInfo.getColumnType());
-      importPackages.add(columnInfo.getImportPackage());
-      columnList.add(map);
+      Map<String, String> columnMap = new HashMap<>();
+      columnMap.put("columnName", CommonUtils.underlineToCamel(columnInfo.getColumnName(), false));
+      columnMap.put("columnComment", columnInfo.getColumnComment());
+      columnMap.put("columnType", columnInfo.mapSqlTypeToJavaType());
+      Map<String, String> importPacckageMap = new HashMap<>();
+      importPacckageMap.put("importPackage", columnInfo.mapSqlTypeToImportPackage());
+      columnList.add(columnMap);
+      importPackages.add(importPacckageMap);
+
     }
     model.put("columnInfos", columnList);
     model.put("importPackages", importPackages);

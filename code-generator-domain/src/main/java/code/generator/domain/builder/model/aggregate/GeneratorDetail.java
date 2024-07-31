@@ -101,6 +101,47 @@ public class GeneratorDetail {
      * 引入包
      */
     private String importPackage;
+
+    /**
+     * 映射SQL类型到Java类型
+     *
+     * @return Java类型
+     */
+    public String mapSqlTypeToJavaType() {
+      if (columnType == null) {
+        return "String";
+      }
+      return switch (columnType.toUpperCase()) {
+        case "TINYINT" -> "Byte";
+        case "SMALLINT" -> "Short";
+        case "INT", "INTEGER" -> "Integer";
+        case "BIGINT", "BIGINT UNSIGNED" -> "Long";
+        case "FLOAT" -> "Float";
+        case "DOUBLE" -> "Double";
+        case "DECIMAL", "NUMERIC" -> "BigDecimal";
+        case "DATE", "TIME", "TIMESTAMP", "DATETIME" -> "Date";
+        case "BOOLEAN" -> "Boolean";
+        default -> "String";
+      };
+    }
+
+    /**
+     * 映射SQL类型到Java类型并获取对应的引入包
+     *
+     * @return Java类型及其对应的包名
+     */
+    public String mapSqlTypeToImportPackage() {
+      if (columnType == null) {
+        return "java.lang.String";
+      }
+
+      return switch (columnType.toUpperCase()) {
+        case "DECIMAL", "NUMERIC" -> "java.math.BigDecimal";
+        case "DATE", "TIME", "TIMESTAMP", "DATETIME" -> "java.util.Date";
+        default -> "";
+      };
+    }
+
   }
 
 

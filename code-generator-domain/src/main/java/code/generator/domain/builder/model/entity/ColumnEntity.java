@@ -35,32 +35,6 @@ public class ColumnEntity {
 
   // 映射SQL类型到Java类型
 
-  /**
-   * 映射SQL类型到Java类型
-   *
-   * @return Java类型
-   */
-  public String mapSqlTypeToJavaType() {
-    if (columnType == null) {
-      return "String";
-    }
-    return switch (columnType.toUpperCase()) {
-      case "TINYINT" -> "Byte";
-      case "SMALLINT" -> "Short";
-      case "INT", "INTEGER" -> "Integer";
-      case "BIGINT", "BIGINT UNSIGNED" -> "Long";
-      case "FLOAT" -> "Float";
-      case "DOUBLE" -> "Double";
-      case "DECIMAL", "NUMERIC" -> "BigDecimal";
-      case "CHAR", "VARCHAR", "LONGVARCHAR", "TEXT" -> "String";
-      case "DATE", "TIME", "TIMESTAMP", "DATETIME" -> "Date";
-      case "BOOLEAN" -> "Boolean";
-//      case "BINARY", "VARBINARY", "LONGVARBINARY" -> "byte[]";
-//      case "BLOB" -> "java.sql.Blob";
-//      case "CLOB" -> "java.sql.Clob";
-      default -> "String";
-    };
-  }
 
 
 }
