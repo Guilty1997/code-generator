@@ -16,25 +16,27 @@ public class Test {
     try (Connection connection = DriverManager.getConnection(url, user, password)) {
       DatabaseMetaData metaData = connection.getMetaData();
 
-      //获取目录
-      ResultSet catalogs = metaData.getCatalogs();
-      while (catalogs.next()) {
-        String catalogName = catalogs.getString("TABLE_CAT");
-        System.out.println("Catalog: " + catalogName);
-      }
+//      //获取目录
+//      ResultSet catalogs = metaData.getCatalogs();
+//      while (catalogs.next()) {
+//        String catalogName = catalogs.getString("TABLE_CAT");
+//        System.out.println("Catalog: " + catalogName);
+//      }
 
       // 获取表信息
-      ResultSet tables = metaData.getTables("iot", null, "%", new String[]{"TABLE"});
+      ResultSet tables = metaData.getTables("big_market", null, "%", new String[]{"TABLE"});
       while (tables.next()) {
         String tableName = tables.getString("TABLE_NAME");
-        System.out.println("Table: " + tableName);
+        String tableType = tables.getString("REMARKS");
+        System.out.println("Table: " + tableName + " Type: " + tableType);
 
         // 获取列信息
-        ResultSet columns = metaData.getColumns(null, null, tableName, "%");
+        ResultSet columns = metaData.getColumns(null, null, "rule_tree", "%");
         while (columns.next()) {
           String columnName = columns.getString("COLUMN_NAME");
           String columnType = columns.getString("TYPE_NAME");
-          System.out.println("\tColumn: " + columnName + " Type: " + columnType);
+          String remarks = columns.getString("REMARKS");
+          System.out.println("\tColumn: " + columnName + " Type: " + columnType + " Remarks: " + remarks);
         }
       }
     } catch (SQLException e) {
